@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Check if the /etc/passwd file exists
+if [ ! -f /etc/passwd ]; then
+    echo "The /etc/passwd file does not exist."
+    exit 1
+fi
+
+while read -r passwd;
+do
+  echo "$passwd" | cut -d ':' -f1,3,6
+done < "/etc/passwd"
