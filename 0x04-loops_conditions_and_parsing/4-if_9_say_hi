@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Print 'Best School' 10 times and 'Hi' on the 9th iteration
+
+n=1
+while [ $n -le 10 ]
+do
+	printf "Best School\n"
+	if [[ $n -eq 9 ]]
+	then
+		printf "Hi\n"
+	fi
+	n=$(( n + 1 )) 
+done

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Print 'Best School' 10 times and 'Hi' on the 9th iteration
+n=1
+while [ $n -le 20 ]
+do
+	case $n in
+		4)
+			printf "bad luck from China\n"
+			;;
+		9)
+			printf "bad luck from Japan\n"
+			;;
+		17)
+			printf "bad luck from Italy\n"
+			;;
+		*)
+			printf "%d\n" $n
+			;;
+	esac
+	n=$(( n + 1 )) 
+done

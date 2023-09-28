@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Print 'Best School' 10 times using 'until' loop
+
+n=1
+until [ $n -gt 10 ]
+do
+	printf "Best School\n"
+	n=$(( n + 1 )) 
+done
