@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Displays To infinity and beyond indefinitely. 
 
-trap "echo I am invincible!!!; exit" SIGTERM
 for((;;))
 do
 	printf "To infinity and beyond\n"
-	sleep 2 
+	sleep 2
+	trap 'echo "I am invincible!!!"' SIGTERM
 done
