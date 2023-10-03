@@ -1,2 +1,0 @@
-from:\w+|from:\+?\d
-to:\+?\d+
