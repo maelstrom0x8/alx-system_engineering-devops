@@ -1,0 +1,56 @@
+Here we have a one-server infrastructure though simple and cost-effective, it has limitations in terms of redundancy, scalability, and availability. To address these issues, a more robust architecture might involve load balancing, and additional servers to ensure continuous availability and improved performance, especially for high-traffic websites.
+
+A user wants to access the website, so they open a web browser and type www.foobar.com in the address bar.
+
+The user's computer sends a DNS request to resolve www.foobar.com to an IP address. The DNS server returns the server's IP address, which is 8.8.8.8.
+
+The user's browser sends an HTTP request to the server at IP address 8.8.8.8.
+
+NGINX, the web server, receives the request. If the request is for static content (e.g., images, CSS), NGINX serves it directly. If it's a dynamic request (e.g., a page requiring database data), NGINX forwards the request to the application server.
+
+The application server processes the dynamic request, executing the necessary code and interacting with the MySQL database if needed.
+
+Once the application server has generated the response, it sends the HTML content back to NGINX.
+
+NGINX, in turn, sends the HTML response to the user's browser.
+
+The user sees the website's content on their browser.
+
+
+
+In this simple one-server web infrastructure for www.foobar.com, we have the following components:
+
+1. **Server:**
+   - The server is a physical or virtual machine that hosts the entire web infrastructure. It's a computer responsible for processing user requests and serving web content.
+
+2. **Domain Name:**
+   - The domain name "foobar.com" is a human-readable address for the website. It's how users can easily find and access your website. The domain name points to the server's IP address (8.8.8.8) via DNS records.
+
+3. **DNS Record for www:**
+   - The DNS record for "www" in "www.foobar.com" typically takes the form of a "CNAME" (Canonical Name) record, which is an alias for the main domain. It points to the domain name "foobar.com," which, in turn, resolves to the server's IP address (8.8.8.8).
+
+4. **Web Server (NGINX):**
+   - The web server (NGINX) is responsible for handling incoming HTTP requests and serving web content to users. It listens on port 80 for incoming requests. When a user enters "www.foobar.com" in their browser, the DNS resolves it to the server's IP address, and the request is forwarded to the NGINX web server.
+
+5. **Application Server:**
+   - The application server is responsible for running the application code. It receives requests from the web server, processes them, interacts with the database (if needed), and generates responses. For example, if you're hosting a dynamic website with PHP, the application server might run PHP scripts.
+
+6. **Database (MySQL):**
+   - The database (MySQL) is used to store and retrieve data for your web application. For instance, it stores user account information, content, or any other data that your application requires. The application server communicates with the database to fetch or update data.
+
+7. **Communication with User's Computer:**
+   - The server communicates with the user's computer via HTTP. When a user types "www.foobar.com" in their web browser, a request is sent to the server over the HTTP protocol. The server processes the request and returns a response, which is then rendered by the user's browser.
+
+**Issues with this Infrastructure:**
+
+1. **Single Point of Failure (SPOF):**
+   - This infrastructure has a single server. If that server experiences a hardware failure or goes down for any reason, the entire website becomes inaccessible. There's no redundancy or failover mechanism in place.
+
+2. **Downtime During Maintenance:**
+   - When maintenance, updates, or code deployments are required, the web server (NGINX) needs to be restarted. During this time, the website may experience downtime, impacting user access.
+
+3. **Scalability Limitations:**
+   - If the website experiences a sudden surge in traffic, a single server may not be able to handle the load efficiently. This infrastructure doesn't provide for easy scalability. Scaling would involve adding more servers, load balancers, and possibly reconfiguring the application to distribute traffic.
+
+
+https://i.imgur.com/7PVR74q.png

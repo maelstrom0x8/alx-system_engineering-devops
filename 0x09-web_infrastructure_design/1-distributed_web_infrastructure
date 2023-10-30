@@ -1,0 +1,61 @@
+**Three-Server Web Infrastructure for www.foobar.com**
+
+**Server 1 - Web Server and Load Balancer**
+- **Components:**
+  - Nginx (Web Server and Load Balancer)
+  - Application Files
+  - Firewall
+
+- **Explanation:**
+  - **Nginx (Web Server and Load Balancer):** Nginx serves as the web server, handling HTTP requests, and as a load balancer, distributing traffic across application servers. It acts as the entry point for user requests and routes them to the application servers.
+
+  - **Application Files:** These are the website's code and assets, hosted on the web server.
+
+  - **Firewall:** The firewall provides security by controlling incoming and outgoing traffic, ensuring that only legitimate data is allowed.
+
+**Server 2 - Application Server**
+- **Components:**
+  - Application Server (e.g., Node.js, Ruby on Rails, Django)
+  - Firewall
+  - Application Files
+
+- **Explanation:**
+  - **Application Server:** This server runs the application code. It handles business logic, processes user requests, and communicates with the database. Multiple instances can be added for redundancy and load distribution.
+
+  - **Firewall:** Similar to Server 1, this firewall protects the application server from unauthorized access.
+
+  - **Application Files:** These are the code and assets needed for running the website's application.
+
+**Server 3 - Database Server**
+- **Components:**
+  - MySQL Database
+  - Firewall
+  - Database Replication
+
+- **Explanation:**
+  - **MySQL Database:** The database server stores the website's data, such as user accounts, content, and more.
+
+  - **Firewall:** This firewall safeguards the database server from unauthorized access.
+
+  - **Database Replication:** Database replication is set up to create a Primary-Replica (Master-Slave) cluster. The Primary node handles write operations, while the Replica node(s) replicate data from the Primary and serve read operations.
+
+**Specifics:**
+
+- **Load Balancer:** HAproxy is configured with a round-robin distribution algorithm. It evenly distributes incoming requests to the available application servers.
+
+- **Active-Active vs. Active-Passive:** This setup is Active-Active. Both application servers are actively serving user requests. Active-Passive would involve one server actively serving requests while the other is on standby for failover.
+
+- **Primary-Replica (Master-Slave) Cluster:** The Primary node handles write operations, making changes to the database. The Replica node(s) replicate data from the Primary but are read-only, serving read operations. This setup provides redundancy and read-scaling.
+
+- **Difference Between Primary and Replica Nodes:** The Primary node is responsible for handling write operations, making it the "master" of the database. The Replica node(s) receive data from the Primary and serve read operations. This separation ensures data consistency and provides fault tolerance.
+
+**Issues:**
+
+- **Single Point of Failure (SPOF):** The potential SPOF exists in the load balancer, as a failure could disrupt traffic distribution. Additionally, without multiple load balancers, the setup has a SPOF in terms of load balancing.
+
+- **Security Issues:** The infrastructure lacks specific security measures, such as firewalls on all servers or HTTPS for secure data transmission. This leaves it vulnerable to unauthorized access and potential data breaches.
+
+- **No Monitoring:** Without a monitoring system in place, it's challenging to detect and respond to performance issues, security breaches, or downtime promptly. Monitoring is essential for ensuring the system's health and availability.
+
+
+https://i.imgur.com/7PVR74q.png

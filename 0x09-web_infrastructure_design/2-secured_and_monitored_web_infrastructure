@@ -1,0 +1,70 @@
+Here's a high-level design of a three-server web infrastructure for www.foobar.com that meets your requirements:
+
+**Three-Server Web Infrastructure for www.foobar.com**
+
+**Server 1 - Web Server and Load Balancer**
+- **Components:**
+  - Nginx (Web Server and Load Balancer)
+  - Firewall 1
+  - SSL Certificate for www.foobar.com
+  - Monitoring Client 1
+
+- **Explanation:**
+  - **Nginx (Web Server and Load Balancer):** Nginx is responsible for handling incoming HTTP and HTTPS requests. It acts as a load balancer, distributing traffic across multiple application servers. HTTPS termination occurs here. It communicates with the application servers.
+
+  - **Firewall 1:** The firewall protects the web server and load balancer from unauthorized access. It filters incoming traffic to allow only legitimate requests.
+
+  - **SSL Certificate:** SSL (or TLS) is used to secure the communication between the user's browser and the server. It ensures data privacy and authenticity.
+
+  - **Monitoring Client 1:** This client collects data about server performance, security, and user interactions. It sends this data to a monitoring tool.
+
+**Server 2 - Application Server**
+- **Components:**
+  - Application Server (e.g., Node.js, Ruby on Rails, Django)
+  - Firewall 2
+  - Monitoring Client 2
+
+- **Explanation:**
+  - **Application Server:** The application server runs the website's code. It handles business logic and communicates with the database server. Multiple instances can be added for redundancy and load distribution.
+
+  - **Firewall 2:** Similar to Firewall 1, this firewall protects the application server from unauthorized access.
+
+  - **Monitoring Client 2:** It collects data about the application's performance, errors, and resource utilization, which is sent to the monitoring tool.
+
+**Server 3 - Database Server**
+- **Components:**
+  - MySQL Database Server
+  - Firewall 3
+  - Monitoring Client 3
+
+- **Explanation:**
+  - **MySQL Database Server:** This server stores the website's data, including user accounts, content, and more. It is vital for the website's functionality.
+
+  - **Firewall 3:** This firewall safeguards the database server against unauthorized access.
+
+  - **Monitoring Client 3:** Similar to the other monitoring clients, this one gathers data about the database's performance, query execution, and resource usage, sending it to the monitoring tool.
+
+**Specifics:**
+
+- **Firewalls:** Firewalls are added for security. They control incoming and outgoing network traffic, ensuring only legitimate data passes through. They provide an additional layer of protection against cyber threats.
+
+- **Traffic Served Over HTTPS:** HTTPS ensures the confidentiality and integrity of data in transit. It encrypts the data between the user's browser and the server, safeguarding sensitive information and protecting against eavesdropping and data tampering.
+
+- **Monitoring:** Monitoring is used to track the performance, security, and availability of the infrastructure. It helps identify and resolve issues quickly, improving user experience.
+
+- **Monitoring Data Collection:** Monitoring tools collect data through agents or clients installed on the servers. These agents collect metrics and logs, which are sent to a central monitoring server for analysis.
+
+- **Monitoring Web Server QPS:** To monitor the web server's Query Per Second (QPS), you'd set up specific monitoring agents or scripts that track the incoming HTTP/HTTPS requests and responses. You can then analyze the data to understand the server's load.
+
+**Issues:**
+
+- **SSL Termination at Load Balancer:** Terminating SSL at the load balancer means that traffic between the load balancer and the application servers is unencrypted. While this enhances performance, it's less secure. If data between the load balancer and application servers is compromised, it poses a security risk.
+
+- **Single MySQL Server for Writes:** Having only one MySQL server capable of accepting write requests is a single point of failure. If it goes down or experiences issues, it can result in data loss or downtime.
+
+- **Uniform Components:** If all servers have the same components (web server, application server, and database), it may lead to over-provisioning. Different servers might have different resource requirements. It's more efficient to allocate resources according to the specific needs of each server.
+
+This infrastructure provides high availability, security, and monitoring capabilities. However, the mentioned issues should be addressed to further enhance the reliability and security of the system.
+
+
+https://i.imgur.com/pBGxMSB.png
