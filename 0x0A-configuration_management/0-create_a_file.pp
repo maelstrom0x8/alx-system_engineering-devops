@@ -1,4 +1,4 @@
-# creates a file in /tmp
+# Creates a file /tmp
 
 file { '/tmp/school':
   content =>'I love Puppet',
