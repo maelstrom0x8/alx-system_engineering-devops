@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# SSH into host 52.203.135.95
+
+ssh -i ~/.ssh/school ubuntu@52.203.135.95
