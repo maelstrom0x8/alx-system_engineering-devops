@@ -1,6 +1,6 @@
 # Configuration for SSH Client
 
-file { '/home/ubuntu/.ssh/config':
+file { '/etc/ssh/ssh_config':
   ensure  => present,
   mode    => '0644',
   content => "\
