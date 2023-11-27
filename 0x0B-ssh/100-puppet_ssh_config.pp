@@ -1,3 +1,4 @@
+# Configuration for SSH Client
 
 file { '/home/ubuntu/.ssh/config':
   ensure  => present,
