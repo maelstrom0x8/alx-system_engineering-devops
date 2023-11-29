@@ -1,17 +1,5 @@
 #!/usr/bin/env bash
 # Fix server bugs
 
-file_path="/etc/apache2/apache2.conf"
-search_pattern="ServerName"
-new_line="ServerName 127.0.0.1"
-
-# Check if the pattern exists in the file
-if grep -q "$search_pattern" "$file_path"; then
-    # If found, replace the entire line
-    sed -i "/$search_pattern/c$new_line" "$file_path"
-else
-    # If not found, append the line to the end of the file
-    echo "$new_line" >> "$file_path"
-fi
-
-apachectl start
+echo "ServerName localhost" >> /etc/apache2.conf
+service apache2 start
