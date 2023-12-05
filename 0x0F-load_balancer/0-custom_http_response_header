@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Configure custom headers for multiple NGINX servers
+which nginx
+
+if [ $? -eq 1 ]
+then
+  apt-get -y update
+  apt-get -y install nginx
+  echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+  echo "Page not Found" > /usr/share/nginx/html/custom_404.html
+  service nginx start
+fi
+
+N1=$( hostname )
+echo "add_header X-Served-By: ${N1};" >> /etc/nginx/nginx.conf
+
+nginx -t
+
+if [ "$(pgrep -c nginx)" -le 0 ]; then
+	service nginx start
+else
+	service nginx restart
+fi
+

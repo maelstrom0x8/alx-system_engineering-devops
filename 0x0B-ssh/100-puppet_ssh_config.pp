@@ -5,7 +5,7 @@ file { '/etc/ssh/ssh_config':
   mode    => '0644',
   content => "\
 Host alx
-  HostName 52.203.135.95
+  HostName 100.25.160.191
   User ubuntu
   IdentityFile ~/.ssh/school
   PasswordAuthentication no
