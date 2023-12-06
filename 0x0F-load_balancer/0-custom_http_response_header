@@ -1,21 +1,9 @@
 #!/usr/bin/env bash
 # Configure custom headers for multiple NGINX servers
-which nginx
-
-if [ $? -eq 1 ]
-then
-  apt-get -y update
-  apt-get -y install nginx
-  echo 'Hello World!' > /var/www/html/index.nginx-debian.html
-  echo "Page not Found" > /usr/share/nginx/html/custom_404.html
-  service nginx start
-fi
-
-N1=$( hostname )
+apt-get -y update
+apt-get install -y nginx
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+echo "Page not Found" > /usr/share/nginx/html/custom_404.html
 sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/nwhator permanent;\n\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}/" /etc/nginx/sites-available/default
-sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$N1\";/" /etc/nginx/nginx.conf
-
-nginx -t
-
+sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOSTNAME\";/" /etc/nginx/nginx.conf
 service nginx start
-
