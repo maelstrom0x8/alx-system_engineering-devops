@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # HAproxy setup and configuration
-sudo apt-get update && sudo apt-get install haproxy -y
+sudo apt update && sudo apt install haproxy -y
 
 sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOT
 global
