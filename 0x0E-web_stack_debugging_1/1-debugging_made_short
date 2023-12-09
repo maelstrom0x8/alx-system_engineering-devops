@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 #Debug server container
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-service nginx start
-kill "$(pgrep 'nginx' | head -1)"
+ln -sfh /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart

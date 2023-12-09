@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Add error page location
 sudo apt-get update
-sudo apt-get install -y nginx 
+sudo apt-get install -y nginx
 touch /var/www/html/index.html
 echo "Hello World!" > /var/www/html/index.html
 
@@ -11,11 +11,11 @@ sudo mv whoops-404.html /var/www/html
 echo "server {
    listen 80 default_server;
    listen [::]:80 default_server;
-   
+
    root /var/www/html;
    index index.html;
    location /redirect_me {
-      return 301 https://start.spring.io;
+      return 301 https://www.google.com;
    }
    error_page 404 /whoops-404.html;
    location = /whoops-404.html{

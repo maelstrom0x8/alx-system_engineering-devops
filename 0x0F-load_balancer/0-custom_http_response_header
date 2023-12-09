@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 # Configure custom headers for multiple NGINX servers
+ERROR="\n\terror_page 404 /whoops-404.html;\n\tlocation = /whoops-404.html { \n\t\t root /usr/share/nginx/html;\n\t\t internal;\n\t}\n"
+AFTER_TEXT="server_name _;"
+FILE="/etc/nginx/sites-available/default"
+ERROR_FILE="/usr/share/nginx/html/whoops-404.html"
+REDIRECT="\n\tlocation /redirect_me {\n\t\treturn 301 https://www.google.com; \n\t}"
+
 apt-get -y update
 apt-get install -y nginx
+ufw allow 'Nginx HTTP'
 echo "Hello World!" > /var/www/html/index.nginx-debian.html
-echo "Page not Found" > /usr/share/nginx/html/custom_404.html
-sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/start.spring.io permanent;\n\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}/" /etc/nginx/sites-available/default
-sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOSTNAME\";/" /etc/nginx/nginx.conf
-service nginx start
+echo "Ceci n'est pas une page" > "$ERROR_FILE";
+
+sed -i "/$AFTER_TEXT/a\ $REDIRECT" "/etc/nginx/sites-available/default"
+sed -i "/$AFTER_TEXT/a\ $ERROR" "$FILE"
+sed -i "/$AFTER_TEXT/a\ \tadd_header X-Served-By \$hostname;" "$FILE"
+
+service nginx restart
