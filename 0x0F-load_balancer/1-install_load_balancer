@@ -13,14 +13,14 @@ defaults
     timeout client 50000ms
     timeout server 50000ms
 
-frontend http_front
+frontend frontx
     bind *:80
-    default_backend http_back
+    default_backend backx
 
-backend http_back
+backend backx
     balance roundrobin
-    server 244284-web-01 100.25.0.186:80 check
-    server 244284-web-02 52.206.217.175:80 check
+    server 303956-web-01 100.25.160.191:80 check
+    server 303956-web-02 52.91.178.10:80 check
 EOT
 
 sudo haproxy -c -f /etc/haproxy/haproxy.cfg
