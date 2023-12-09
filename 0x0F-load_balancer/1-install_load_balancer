@@ -1,16 +1,28 @@
 #!/usr/bin/env bash
 # HAproxy setup and configuration
-FILE="/etc/haproxy/haproxy.cfg"
-apt-get -y update
-apt-get -y upgrade
-apt-get -y install haproxy
+apt-get update && apt-get install haproxy -y
 
-cat <<EOF >> $FILE
-frontend frontx
-    bind 0.0.0.0:80
-    default_backend backx
-backend backx
-    server web-01 100.25.160.191
-    server web-02 52.91.178.10
-EOF
-service haproxy restart
+sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOT
+global
+    daemon
+    maxconn 256
+
+defaults
+    mode http
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+
+frontend http_front
+    bind *:80
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server 244284-web-01 100.25.0.186:80 check
+    server 244284-web-02 52.206.217.175:80 check
+EOT
+
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+sudo systemctl start haproxy
+sudo systemctl enable haproxy
