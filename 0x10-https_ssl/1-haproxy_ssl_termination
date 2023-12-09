@@ -1,8 +1,6 @@
 global
     log     /dev/log local0
     maxconn 2048
-    user    haproxy
-    group   haproxy
     tune.ssl.default-dh-param 2048
 
 defaults
@@ -18,19 +16,19 @@ defaults
     option  forwardfor
     option  http-server-close
 
-frontend frontx
+frontend www-frontend
     bind   0.0.0.0:80
-    reqadd X-Forwarded-Proto:\ http
-    default_backend backx
+    http-request add-header X-Forwarded-Proto http
+    default_backend www-backend
 
-frontend frontx
-    bind   0.0.0.0:443 ssl crt /etc/haproxy/certs/www.bdbnb.site.pem
-    reqadd X-Forwarded-Proto:\ https
+frontend www-frontend-https
+    bind   0.0.0.0:443 ssl crt /etc/haproxy/certs/kodegard.tech.pem
+    http-request add-header X-Forwarded-Proto https
     acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
     use_backend letsencrypt-backend if letsencrypt-acl
-    default_backend backx
+    default_backend www-backend
 
-backend backx
+backend www-backend
     balance  roundrobin
     redirect scheme https if !{ ssl_fc }
     server 303956-web-01 100.25.160.191:80 check
