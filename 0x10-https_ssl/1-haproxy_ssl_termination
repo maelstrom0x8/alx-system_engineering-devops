@@ -18,19 +18,19 @@ defaults
     option  forwardfor
     option  http-server-close
 
-frontend www-http
+frontend frontx
     bind   0.0.0.0:80
     reqadd X-Forwarded-Proto:\ http
-    default_backend www-backend
+    default_backend backx
 
-frontend www-https
+frontend frontx
     bind   0.0.0.0:443 ssl crt /etc/haproxy/certs/www.bdbnb.site.pem
     reqadd X-Forwarded-Proto:\ https
     acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
     use_backend letsencrypt-backend if letsencrypt-acl
-    default_backend www-backend
+    default_backend backx
 
-backend www-backend
+backend backx
     balance  roundrobin
     redirect scheme https if !{ ssl_fc }
     server 303956-web-01 100.25.160.191:80 check
