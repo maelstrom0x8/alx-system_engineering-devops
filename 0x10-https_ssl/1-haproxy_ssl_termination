@@ -1,30 +1,42 @@
 global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    tune.ssl.default-dh-param 2048
     daemon
-    maxconn 256
+
 
 defaults
-    mode http
-    timeout connect 5000ms
-    timeout client 50000ms
-    timeout server 50000ms
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
 
-frontend www-frontend
-    bind   0.0.0.0:80
-    http-request add-header X-Forwarded-Proto http
-    default_backend www-backend
 
 frontend www-frontend-https
-    bind   0.0.0.0:443 ssl crt /etc/haproxy/certs/kodegard.tech.pem
+    bind   *:80
+    bind   0.0.0.0::443 ssl crt /etc/haproxy/certs/kodegard.tech.pem
     http-request add-header X-Forwarded-Proto https
-    acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
-    use_backend letsencrypt-backend if letsencrypt-acl
+    redirect scheme https if !{ ssl_fc }
     default_backend www-backend
+
 
 backend www-backend
     balance  roundrobin
     redirect scheme https if !{ ssl_fc }
     server 303956-web-01 100.25.160.191:80 check
     server 303956-web-02 52.91.178.10:80 check
-
-backend letsencrypt-backend
-    server letsencrypt 127.0.0.1:54321
