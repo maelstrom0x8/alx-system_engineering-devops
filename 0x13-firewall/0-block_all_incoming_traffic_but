@@ -1,4 +1,5 @@
 #!/usr/bin/bash
+# Configure server to allow specific connections
 
 sudo apt-get update && sudo apt-get install ufw
 
