@@ -7,7 +7,8 @@ import sys
 if __name__ == "__main__":
     BASE_URL = "https://jsonplaceholder.typicode.com/"
     user = requests.get(BASE_URL + "users/{}".format(sys.argv[1])).json()
-    todos = requests.get(BASE_URL + "todos", params={"userId": sys.argv[1]}).json()
+    todos = requests.get(BASE_URL + "todos",
+                         params={"userId": sys.argv[1]}).json()
     completed = [t.get("title") for t in todos if t.get("completed") is True]
 
     print("Employee {} is done with tasks({}/{}):".format(
