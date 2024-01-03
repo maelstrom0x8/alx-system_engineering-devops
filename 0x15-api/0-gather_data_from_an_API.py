@@ -3,7 +3,8 @@
 """
 0-gather_data_from_an_API.py
 
-This script interacts with an API to fetch information about a user and their associated tasks.
+This script interacts with an API to fetch information about a
+user and their associated tasks.
 
 Usage:
     python 0-gather_data_from_an_API.py <user_id>
