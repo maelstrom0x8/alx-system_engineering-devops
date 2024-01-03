@@ -45,22 +45,45 @@ BASE_URL = 'https://jsonplaceholder.typicode.com'
 
 
 def fetch_single_user(id: str):
-    """Fetch a user"""
+    """
+    Fetch information about a user from the API.
+
+    Args:
+        user_id (str): The ID of the user.
+
+    Returns:
+        dict: A dictionary containing user information.
+    """
     url = "{}/users/{}".format(BASE_URL, id)
     usr = requests.get(url)
     return usr.json()
 
 
 def fetch_todos(user_id: str):
-    """Fetch all user todos"""
+    """
+    Fetch all todos associated with a user from the API.
+
+    Args:
+        user_id (str): The ID of the user.
+
+    Returns:
+        list: A list of dictionaries representing todos.
+    """
     url = "{}/todos?userId={}".format(BASE_URL, user_id)
     response = requests.get(url)
     return response.json()
 
 
 def todos_stat(todos: list[dict]):
-    """ From a collection of todos this function gets the
-        number of todos and the completed ones"""
+    """
+    Calculate the number of completed and total todos.
+
+    Args:
+        todos (list[dict]): List of dictionaries representing todos.
+
+    Returns:
+        tuple: A tuple containing the number of completed and total todos.
+    """
     total = 0
     completed = 0
     for e in todos:
