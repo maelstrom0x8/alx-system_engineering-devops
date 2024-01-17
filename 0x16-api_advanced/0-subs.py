@@ -14,7 +14,7 @@ def number_of_subscribers(subreddit: str) -> int:
     """Fetch the number of subscribers for a given subreddit"""
 
     url = "https://api.reddit.com/r/{}/about.json".format(subreddit)
-    
+
     res = requests.get(url, headers={'User-Agent': 'aeflheim/0.0.1',
                                      'Content-Type': 'application/json'},
                        params={'limit': 10},
