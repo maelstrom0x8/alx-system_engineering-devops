@@ -10,10 +10,18 @@ given subreddit using the Reddit API.
 import requests
 
 
-def fetch_subscribers(subreddit: str):
+def number_of_subscribers(subreddit: str) -> int:
     """Fetch the number of subscribers for a given subreddit"""
-    url = f"https://api.reddit.com/r/{subreddit}/about"
-    res = requests.get(url, headers={'User-Agent': 'Agent-Smith V1'})
-    content = res.json()
-    data: dict = content.get('data')
+
+    url = "https://api.reddit.com/r/{}/about.json".format(subreddit)
+    
+    res = requests.get(url, headers={'User-Agent': 'aeflheim/0.0.1',
+                                     'Content-Type': 'application/json'},
+                       params={'limit': 10},
+                       allow_redirects=False)
+
+    if res.status_code == 302:
+        return 0
+
+    data: dict = res.json().get('data')
     return int(data.get('subscribers')) if data.get('subscribers') else 0
